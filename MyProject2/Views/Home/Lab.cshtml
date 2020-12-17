@@ -1,0 +1,38 @@
+﻿@using Kendo.Mvc.UI
+@model IEnumerable<MyProject2.Models.LabTables>
+
+@{
+    ViewBag.Title = "Lab";
+}
+
+<h2>Lab</h2>
+Add Css and Js
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>"
+<script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>"
+
+
+<div class="code-cut">
+    @Html.KendoGrid<LabTables>.Columns(Columns =>
+    {
+        Columns.Add(c => c.HHISNUM).Titled("Id").Filterable(false);
+        Columns.Add(c => c.HNAME).Titled("HNAME").Filterable(true);
+        Columns.Add(c => c.HIDNO).Titled("HIDNO").Filterable(true);
+        Columns.Add(c => c.HSEX).Titled("HSEX").Filterable(true);
+        Columns.Add(c => c.HBIRTHDT).Titled("HBIRTHDT").Filterable(true);
+        Columns.Add(c => c.HBLDTYPE).Titled("HBLDTYPE").Filterable(true);
+        Columns.Add(c => c.HPATADR).Titled("HPATADR").Filterable(true);
+        Columns.Add(c => c.HPMOBIL).Titled("HPMOBIL").Filterable(true);
+        Columns.Add(c => c.WEIGHT).Titled("WEIGHT").Filterable(true);
+        Columns.Add(c => c.HEIGHT).Titled("HEIGHT").Filterable(true);
+        Columns.Add(c => c.CREATEDATETIME).Titled("CREATEDATETIME").Filterable(true);
+        Columns.Add()
+           .Encoded(false)
+           .Sanitized(false)
+           .SetWidth(30)
+           .RenderValueAs(o => Html.ActionLink("Edit", "Eidt", new { i = o.HHISNUM }));
+}).WithPaging(10).Sortable(true)
+
+</div>

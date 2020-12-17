@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LabDepModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PAT_BASIC">
+          <Key>
+            <PropertyRef Name="HHISNUM" />
+          </Key>
+          <Property Name="HHISNUM" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="HNAME" Type="varchar" MaxLength="26" Nullable="false" />
+          <Property Name="HIDNO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="HSEX" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="HBIRTHDT" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="HBLDTYPE" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="HPATADR" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="HPMOBIL" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="WEIGHT" Type="decimal" Precision="7" Scale="3" />
+          <Property Name="HEIGHT" Type="decimal" Precision="7" Scale="3" />
+          <Property Name="CREATEDATETIME" Type="varchar" MaxLength="14" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PAT_RESULTD">
+          <Key>
+            <PropertyRef Name="PRD_TRX_NUM" />
+            <PropertyRef Name="PRD_LINE_NO" />
+          </Key>
+          <Property Name="PRD_TRX_NUM" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="PRD_TEST_CODE" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="PRD_TEST_NAME" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="PRD_RESULT_VALUE" Type="varchar" MaxLength="4000" Nullable="false" />
+          <Property Name="PRD_RESULT_FLAG" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="PRD_RANGE" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PRD_LINE_NO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PRD_TRX_DT" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="PRD_RESULT_LOLIMIT" Type="decimal" Precision="9" Scale="3" Nullable="false" />
+          <Property Name="PRD_RESULT_UPLIMIT" Type="decimal" Precision="9" Scale="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PAT_RESULTH">
+          <Key>
+            <PropertyRef Name="PRH_TRX_NUM" />
+          </Key>
+          <Property Name="PRH_TRX_NUM" Type="decimal" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PRH_PAT_ID" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="PRH_BED_NO" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="PRH_ORDER_DT" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="PRH_ORDER_NO" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_PAT_RESULTD_PAT_RESULTH">
+          <End Role="PAT_RESULTH" Type="Self.PAT_RESULTH" Multiplicity="1" />
+          <End Role="PAT_RESULTD" Type="Self.PAT_RESULTD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAT_RESULTH">
+              <PropertyRef Name="PRH_TRX_NUM" />
+            </Principal>
+            <Dependent Role="PAT_RESULTD">
+              <PropertyRef Name="PRD_TRX_NUM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAT_RESULTH_PAT_BASIC">
+          <End Role="PAT_BASIC" Type="Self.PAT_BASIC" Multiplicity="1" />
+          <End Role="PAT_RESULTH" Type="Self.PAT_RESULTH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAT_BASIC">
+              <PropertyRef Name="HHISNUM" />
+            </Principal>
+            <Dependent Role="PAT_RESULTH">
+              <PropertyRef Name="PRH_PAT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LabDepModelStoreContainer">
+          <EntitySet Name="PAT_BASIC" EntityType="Self.PAT_BASIC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAT_RESULTD" EntityType="Self.PAT_RESULTD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAT_RESULTH" EntityType="Self.PAT_RESULTH" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PAT_RESULTD_PAT_RESULTH" Association="Self.FK_PAT_RESULTD_PAT_RESULTH">
+            <End Role="PAT_RESULTH" EntitySet="PAT_RESULTH" />
+            <End Role="PAT_RESULTD" EntitySet="PAT_RESULTD" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAT_RESULTH_PAT_BASIC" Association="Self.FK_PAT_RESULTH_PAT_BASIC">
+            <End Role="PAT_BASIC" EntitySet="PAT_BASIC" />
+            <End Role="PAT_RESULTH" EntitySet="PAT_RESULTH" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LabDepModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PAT_BASIC">
+          <Key>
+            <PropertyRef Name="HHISNUM" />
+          </Key>
+          <Property Name="HHISNUM" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HNAME" Type="String" MaxLength="26" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HIDNO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HSEX" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HBIRTHDT" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HBLDTYPE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HPATADR" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HPMOBIL" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="WEIGHT" Type="Decimal" Precision="7" Scale="3" />
+          <Property Name="HEIGHT" Type="Decimal" Precision="7" Scale="3" />
+          <Property Name="CREATEDATETIME" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PAT_RESULTH" Relationship="Self.FK_PAT_RESULTH_PAT_BASIC" FromRole="PAT_BASIC" ToRole="PAT_RESULTH" />
+        </EntityType>
+        <EntityType Name="PAT_RESULTD">
+          <Key>
+            <PropertyRef Name="PRD_TRX_NUM" />
+            <PropertyRef Name="PRD_LINE_NO" />
+          </Key>
+          <Property Name="PRD_TRX_NUM" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="PRD_TEST_CODE" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRD_TEST_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PRD_RESULT_VALUE" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRD_RESULT_FLAG" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRD_RANGE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRD_LINE_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRD_TRX_DT" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRD_RESULT_LOLIMIT" Type="Decimal" Precision="9" Scale="3" Nullable="false" />
+          <Property Name="PRD_RESULT_UPLIMIT" Type="Decimal" Precision="9" Scale="3" Nullable="false" />
+          <NavigationProperty Name="PAT_RESULTH" Relationship="Self.FK_PAT_RESULTD_PAT_RESULTH" FromRole="PAT_RESULTD" ToRole="PAT_RESULTH" />
+        </EntityType>
+        <EntityType Name="PAT_RESULTH">
+          <Key>
+            <PropertyRef Name="PRH_TRX_NUM" />
+          </Key>
+          <Property Name="PRH_TRX_NUM" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PRH_PAT_ID" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRH_BED_NO" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRH_ORDER_DT" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRH_ORDER_NO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PAT_BASIC" Relationship="Self.FK_PAT_RESULTH_PAT_BASIC" FromRole="PAT_RESULTH" ToRole="PAT_BASIC" />
+          <NavigationProperty Name="PAT_RESULTD" Relationship="Self.FK_PAT_RESULTD_PAT_RESULTH" FromRole="PAT_RESULTH" ToRole="PAT_RESULTD" />
+        </EntityType>
+        <Association Name="FK_PAT_RESULTH_PAT_BASIC">
+          <End Role="PAT_BASIC" Type="Self.PAT_BASIC" Multiplicity="1" />
+          <End Role="PAT_RESULTH" Type="Self.PAT_RESULTH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAT_BASIC">
+              <PropertyRef Name="HHISNUM" />
+            </Principal>
+            <Dependent Role="PAT_RESULTH">
+              <PropertyRef Name="PRH_PAT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAT_RESULTD_PAT_RESULTH">
+          <End Role="PAT_RESULTH" Type="Self.PAT_RESULTH" Multiplicity="1" />
+          <End Role="PAT_RESULTD" Type="Self.PAT_RESULTD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PAT_RESULTH">
+              <PropertyRef Name="PRH_TRX_NUM" />
+            </Principal>
+            <Dependent Role="PAT_RESULTD">
+              <PropertyRef Name="PRD_TRX_NUM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LabDepEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PAT_BASIC" EntityType="Self.PAT_BASIC" />
+          <EntitySet Name="PAT_RESULTD" EntityType="Self.PAT_RESULTD" />
+          <EntitySet Name="PAT_RESULTH" EntityType="Self.PAT_RESULTH" />
+          <AssociationSet Name="FK_PAT_RESULTH_PAT_BASIC" Association="Self.FK_PAT_RESULTH_PAT_BASIC">
+            <End Role="PAT_BASIC" EntitySet="PAT_BASIC" />
+            <End Role="PAT_RESULTH" EntitySet="PAT_RESULTH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAT_RESULTD_PAT_RESULTH" Association="Self.FK_PAT_RESULTD_PAT_RESULTH">
+            <End Role="PAT_RESULTH" EntitySet="PAT_RESULTH" />
+            <End Role="PAT_RESULTD" EntitySet="PAT_RESULTD" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LabDepModelStoreContainer" CdmEntityContainer="LabDepEntities">
+          <EntitySetMapping Name="PAT_BASIC">
+            <EntityTypeMapping TypeName="LabDepModel.PAT_BASIC">
+              <MappingFragment StoreEntitySet="PAT_BASIC">
+                <ScalarProperty Name="HHISNUM" ColumnName="HHISNUM" />
+                <ScalarProperty Name="HNAME" ColumnName="HNAME" />
+                <ScalarProperty Name="HIDNO" ColumnName="HIDNO" />
+                <ScalarProperty Name="HSEX" ColumnName="HSEX" />
+                <ScalarProperty Name="HBIRTHDT" ColumnName="HBIRTHDT" />
+                <ScalarProperty Name="HBLDTYPE" ColumnName="HBLDTYPE" />
+                <ScalarProperty Name="HPATADR" ColumnName="HPATADR" />
+                <ScalarProperty Name="HPMOBIL" ColumnName="HPMOBIL" />
+                <ScalarProperty Name="WEIGHT" ColumnName="WEIGHT" />
+                <ScalarProperty Name="HEIGHT" ColumnName="HEIGHT" />
+                <ScalarProperty Name="CREATEDATETIME" ColumnName="CREATEDATETIME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAT_RESULTD">
+            <EntityTypeMapping TypeName="LabDepModel.PAT_RESULTD">
+              <MappingFragment StoreEntitySet="PAT_RESULTD">
+                <ScalarProperty Name="PRD_TRX_NUM" ColumnName="PRD_TRX_NUM" />
+                <ScalarProperty Name="PRD_TEST_CODE" ColumnName="PRD_TEST_CODE" />
+                <ScalarProperty Name="PRD_TEST_NAME" ColumnName="PRD_TEST_NAME" />
+                <ScalarProperty Name="PRD_RESULT_VALUE" ColumnName="PRD_RESULT_VALUE" />
+                <ScalarProperty Name="PRD_RESULT_FLAG" ColumnName="PRD_RESULT_FLAG" />
+                <ScalarProperty Name="PRD_RANGE" ColumnName="PRD_RANGE" />
+                <ScalarProperty Name="PRD_LINE_NO" ColumnName="PRD_LINE_NO" />
+                <ScalarProperty Name="PRD_TRX_DT" ColumnName="PRD_TRX_DT" />
+                <ScalarProperty Name="PRD_RESULT_LOLIMIT" ColumnName="PRD_RESULT_LOLIMIT" />
+                <ScalarProperty Name="PRD_RESULT_UPLIMIT" ColumnName="PRD_RESULT_UPLIMIT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAT_RESULTH">
+            <EntityTypeMapping TypeName="LabDepModel.PAT_RESULTH">
+              <MappingFragment StoreEntitySet="PAT_RESULTH">
+                <ScalarProperty Name="PRH_TRX_NUM" ColumnName="PRH_TRX_NUM" />
+                <ScalarProperty Name="PRH_PAT_ID" ColumnName="PRH_PAT_ID" />
+                <ScalarProperty Name="PRH_BED_NO" ColumnName="PRH_BED_NO" />
+                <ScalarProperty Name="PRH_ORDER_DT" ColumnName="PRH_ORDER_DT" />
+                <ScalarProperty Name="PRH_ORDER_NO" ColumnName="PRH_ORDER_NO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
